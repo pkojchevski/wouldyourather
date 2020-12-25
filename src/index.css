@@ -42,7 +42,10 @@ a {
 
 }
 
-
+.home-tabs {
+  width:70%;
+  margin:auto;
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;

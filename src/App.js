@@ -11,8 +11,10 @@ import Login from './pages/Login'
 class App extends React.Component {
 
   render() {
+    const { isAuth } = this.props
     return (
-      <Router>
+      <>
+      { isAuth ? (<Router>
         <LoadingBar />
           <div className="container">
             <Nav />
@@ -21,11 +23,26 @@ class App extends React.Component {
           <Route path="/new-question" component={NewQuestion} />
           <Route path="/leader-board" component={LeaderBoard} />
           <Route path="/login" component={Login} />
-      </Router>
+      </Router>)
+      : (
+        <Router>
+        <Route path="/" component={Login} />
+        </Router>
+      )
+  }
+    
+    </>
+    
  
       );
   }
 
 }
 
+const mapStateToProps = ({authedUser}) => {
+  console.log('authedUser:', authedUser)
+  return {
+     isAuth: !!authedUser
+  }
+}
 export default App;

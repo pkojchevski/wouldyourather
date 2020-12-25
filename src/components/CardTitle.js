@@ -7,9 +7,6 @@ const CardTitle = ({title, subtitle, children}) => {
                 <p className="title-main">{title}</p>
                 <p className="title-sub">{subtitle} </p> 
              </div>
-             <div className="card-body">
-             {children}
-             </div>
         </div>
     );
 }

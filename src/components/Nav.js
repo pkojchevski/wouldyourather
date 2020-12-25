@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
+import { Image } from 'react-bootstrap'
 
-const Nav = () => {
+const Nav = ({isAuth, authedUser}) => {
     return (
        <nav className="nav">
           <nav className="nav">
@@ -15,18 +16,36 @@ const Nav = () => {
                <li>
                <NavLink to="/leader-board">Leader Board</NavLink>  
                 </li>
-                <li>
-                <NavLink to ="/login">Login</NavLink>  
-          
-                </li>
-                <li>
-                <NavLink to="/logout">Logout</NavLink>  
-                </li>
+                {isAuth ? (
+                    <>
+                    <div>
+                        Hello, { authedUser.name }
+                        <span>
+                            <Image src={authedUser.avatarURL} alt="image" rounded/>
+                        </span>
+                    </div>
+                    <li>
+               <NavLink to ="/login">Login</NavLink>  
+               </li>
+               </>
+                ) : (
+                    <li>
+                    <NavLink to="/logout">Logout</NavLink>  
+                    </li>
+                )}
+                
+ 
+
            </ul>
        </nav> 
 
        </nav>
     );
 }
+
+const mapStateToProps = ({authedUser}) => ({
+    authedUser,
+    isAuth: !!authedUser
+})
 
 export default Nav;

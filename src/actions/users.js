@@ -2,8 +2,9 @@ import { _getUsers } from '../_DATA'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export const GET_USERS = "GET_USERS"
+export const GET_USER_FROM_AUTHOR = "GET_USER_FROM_AUTHOR"
 
-export const getUsers = (users) => ({
+const getUsers = (users) => ({
     type:GET_USERS,
     users
 })
@@ -15,3 +16,7 @@ export const getUsersAsync = () => dispatch => {
         })
     .then(() => dispatch(hideLoading()))
 }
+
+
+
+
