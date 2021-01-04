@@ -30,7 +30,7 @@ export const getQuestionsAsync = () => dispatch => {
         .then(() => dispatch(hideLoading()))
   }
 
-export const Logout = () => ({
+export const logout = () => ({
     type:LOGOUT
 })
 

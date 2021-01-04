@@ -1,48 +1,62 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'
 import LeaderBoard from './pages/LeaderBoard'
 import NewQuestion from './pages/NewQuestion'
-import './App.css';
-import Nav from './components/Nav'
-import { LoadingBar } from "react-redux-loading";
+import { connect } from 'react-redux'
+import Header from './components/Header'
+import LoadingBar from 'react-redux-loading-bar'
 import Login from './pages/Login'
+import Question from './pages/Question'
+import QuestionReport from './components/QuestionReport'
+import PropTypes from 'prop-types';
+
 
 class App extends React.Component {
-
+  
   render() {
     const { isAuth } = this.props
     return (
       <>
-      { isAuth ? (<Router>
+      { isAuth ? (
+      <>
         <LoadingBar />
-          <div className="container">
-            <Nav />
+            <Header />
+        <div className="container">  
+        <Switch> 
+            <Route path="/" exact component={Home} />       
+            <Route path="/question/:id/report" component={QuestionReport} />
+            <Route path="/question/:id" component={Question} />
+            <Route path="/new-question" exact component={NewQuestion} />
+            <Route path="/leader-board" exact component={LeaderBoard} />
+            <Route path="/login" component={Login} />
+          </Switch>
           </div>
-          <Route path="/" component={Home} />
-          <Route path="/new-question" component={NewQuestion} />
-          <Route path="/leader-board" component={LeaderBoard} />
-          <Route path="/login" component={Login} />
-      </Router>)
+        </>
+)
       : (
-        <Router>
-        <Route path="/" component={Login} />
-        </Router>
+          <div className="container">
+            <Switch>
+              <Route path="/" exact component={Login} />
+              <Redirect to="/" />
+            </Switch>
+          </div> 
       )
   }
-    
     </>
-    
- 
       );
   }
 
 }
 
-const mapStateToProps = ({authedUser}) => {
-  console.log('authedUser:', authedUser)
+App.propTypes = {
+  isAuth:PropTypes.bool,
+};
+
+
+const mapStateToProps = ({auth}) => {
   return {
-     isAuth: !!authedUser
+     isAuth: !!auth.authedUser
   }
 }
-export default App;
+export default connect(mapStateToProps)(App);

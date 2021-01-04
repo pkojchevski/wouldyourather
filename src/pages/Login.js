@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
-import CardTitle from '../components/CardTitle'
+import { Card, Form, Button, Image } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import logo from '../logo.svg'
 import { getUsersAsync } from '../actions/users'
-import { setAuthedUser } from '../actions/authedUser'
-import _ from 'lodash';
+import { setAuthedUser } from '../actions/auth'
 import { withRouter} from 'react-router-dom'
+import Dropdown from '../components/Dropdown'
 
 class Login extends Component {
     state = {
-        id:''
+        user:null
     }
 
     componentDidMount() {
@@ -19,45 +19,46 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const user = this.props.users.filter(el => el.id === this.state.id)[0]
-        console.log('user:', user)
-        this.props.dispatch(setAuthedUser(user))
+        this.props.dispatch(setAuthedUser(this.state.user))
         this.props.history.push('/')
     }
 
-    handleChange = (e) => {
-        console.log(...e.target.value)
-        this.setState({id:e.target.value})
+
+    handleDropdownSelect = (user) => {
+        this.setState({user})
     }
    
     render() {
-        const {id} = this.state
+        const { user } = this.state
         const { users } = this.props
         return (
-        <div className="card">
-            <CardTitle title="Welcome to the Would You Rather App" subtitle="Please signin to continue"/>
-            <div className="card-body">
-                <img src={logo} alt="img" className="signin-logo"/>
-                <h2>Signin</h2>
-                <form onSubmit={this.handleSubmit} className="login-form">
-                    <div className="select">
-                      <select  onChange={this.handleChange} >
-                      <option value="" delected disabled>Select user</option>
-                        {users && users.map(user => (
-                        <option key = {user.id} value={user.id}>{user.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <button className="btn btn-green full-width" type="submit">Signin</button>
-                </form>
-            </div>
-        </div>
+            <Card className="w-75">
+              <Card.Header>
+                  <h3 className="font-weight-bold text-center">Welcome to the Would You Rather App</h3>
+                  <p className="text-center">Please sign in to continue</p>
+              </Card.Header>
+              <Card.Body className="mx-auto">
+                 <Image src={logo} width="350" alt="img" className="signin-logo"/>
+                 <h2 className="text-success text-center">Sign in</h2>
+                 <Form className="w-100">
+                     <Form.Group>
+                        {
+                            users && 
+                            <Dropdown users={users} onDropDownSelect={this.handleDropdownSelect}/>
+                        }
+                    </Form.Group>
+                     <Button className="btn btn-success btn-block" type="submit" onClick={this.handleSubmit} disabled={!user}>
+                        Sign in
+                     </Button>
+                </Form>
+              </Card.Body>
+            </Card>  
         )
     }
 }
 
 Login.propTypes = {
-
+   users:PropTypes.array
 }
 
 const mapStateToProps = ({users}) => {
@@ -65,9 +66,5 @@ const mapStateToProps = ({users}) => {
     users:Object.values(users)
 }
 }
-
-// const mapDispatchToProps = dispatch => ({
-//     setAuthedUser: user => dispatch(setAuthedUser(user))
-//   });
 
 export default withRouter(connect(mapStateToProps)(Login))

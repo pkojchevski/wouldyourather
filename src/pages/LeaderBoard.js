@@ -2,27 +2,30 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RankingUserItem from '../components/RankingUserItem'
+import { rankUsers } from '../utils'
 
 class LeaderBoard extends Component {
 
     render() {
-        const { users } = this.props;
+        const { sortedUsers } = this.props;
         return (
             <>
-           {users && users.map(user => (
-            <RankingUserItem user={user}/>
-           ))}
+                {sortedUsers && 
+                sortedUsers
+                   .map((user, id) => (
+                    <RankingUserItem key = {id} user={user} rank= {id}/>
+                ))}
            </>
         );
     }
 }
 
 LeaderBoard.propTypes = {
-
+   sortedUsers:PropTypes.array
 };
 
 const mapStateToProps = ({users}) => ({
-    users: Object.values(users)
+    sortedUsers: rankUsers(users)
 })
 
 export default connect(mapStateToProps)(LeaderBoard);

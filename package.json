@@ -11,13 +11,18 @@
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.1.0",
     "react-redux": "^7.2.2",
     "react-redux-loading": "^4.6.1",
+    "react-redux-loading-bar": "^5.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-select": "^3.1.1",
     "react-tabs": "^3.1.2",
+    "react-ui-dropdown": "^0.3.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^2.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

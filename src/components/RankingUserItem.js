@@ -1,31 +1,37 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { Card, Container, Row, Col , Image, Badge} from 'react-bootstrap'
+import TrophyCup from './TrophyCup';
+import PropTypes from 'prop-types';
 
-const RankingUserItem = ({user}) => {
+const RankingUserItem = ({user, rank}) => {
     return ( 
-        <Card>
-            <Card.Body>
-                <Container>
+        <Card className="mb-3 w-75">
+            <Card.Body className="m-0">
+                <Container fluid className="m-0 p-0">
                     <Row>
-                        <Col xs={8} md={8}>
-                        <Col xs={6} md={4}>
-                        { user && <Image src={user.avatarURL} rounded />}
+                        <Col md={3}>
+                            { user && <Image width="120" src={user.avatarURL} rounded />}
+                            <TrophyCup color={rank === 0 ? 'gold' : (rank===2) ? 'silver' : 'bronze'}/>
                         </Col>
-                        <Col xs={6} md={8}>
-                            <Row>
-                                <h3>{user.name}</h3>
-                                <p>Answered questions <span>{Object.keys(user.answers).length}</span></p>
-                                <p>Created questions <span>{user.questions.length}</span></p>
+                        <Col md={7} className="ranking-user-item">
+                            <Row className="mr-1">
+                                <h4 className="mb-4">{user.name}</h4>
+                                <p className="w-100 p-0 m-1">Answered questions <span className="float-right">{Object.keys(user.answers).length}</span></p>
+                                <hr className="hor-line"/>
+                                <p className="w-100 p-0 m-1">Created questions <span className="float-right">{user.questions.length}</span></p>
                             </Row>
                         </Col>
-                        </Col>
-                        <Col md={4}>
-                            <Row> <div className="score-title">score</div></Row>
-                            <Row>
+                        <Col md={2} className="ranking-user-item">
+                            <Card>
+                                <Card.Header className="text-center">
+                                   Score
+                                </Card.Header>
+                                <Card.Body className = "card-body m-0 p-2 text-center">
                                 <Badge pill variant="success">
                                     {Object.keys(user.answers).length + user.questions.length}
                                 </Badge>
-                            </Row>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     </Row>
             </Container>
@@ -34,6 +40,11 @@ const RankingUserItem = ({user}) => {
       </Card>
      );
 }
+
+RankingUserItem.propTypes = {
+    user:PropTypes.object.isRequired,
+    rank: PropTypes.number.isRequired
+ };
  
 
 export default RankingUserItem;
